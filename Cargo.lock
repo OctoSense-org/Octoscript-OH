@@ -68,7 +68,7 @@ checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
 name = "flutter-catalog"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]
@@ -106,7 +106,7 @@ dependencies = [
 [[package]]
 name = "makepad-error-log"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-micro-serde",
 ]
@@ -114,7 +114,7 @@ dependencies = [
 [[package]]
 name = "makepad-html"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-live-id",
 ]
@@ -122,7 +122,7 @@ dependencies = [
 [[package]]
 name = "makepad-live-id"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-live-id-macros",
 ]
@@ -130,7 +130,7 @@ dependencies = [
 [[package]]
 name = "makepad-live-id-macros"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -138,7 +138,7 @@ dependencies = [
 [[package]]
 name = "makepad-math"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-micro-serde",
 ]
@@ -146,12 +146,12 @@ dependencies = [
 [[package]]
 name = "makepad-micro-proc-macro"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 
 [[package]]
 name = "makepad-micro-serde"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-live-id",
  "makepad-micro-serde-derive",
@@ -160,7 +160,7 @@ dependencies = [
 [[package]]
 name = "makepad-micro-serde-derive"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -168,12 +168,12 @@ dependencies = [
 [[package]]
 name = "makepad-regex"
 version = "0.1.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 
 [[package]]
 name = "makepad-script"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-error-log",
  "makepad-html",
@@ -187,7 +187,7 @@ dependencies = [
 [[package]]
 name = "makepad-script-derive"
 version = "1.0.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -196,7 +196,7 @@ dependencies = [
 name = "material-catalog"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]
@@ -252,6 +252,80 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f101404db01422d034db5afa63eefff6d9c8f66c0894278bc456b4c30954e166"
 dependencies = [
  "libloading",
+]
+
+[[package]]
+name = "octoscript-core"
+version = "0.1.0"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
+dependencies = [
+ "makepad-script",
+ "octoscript-ui-l0",
+ "serde_json",
+]
+
+[[package]]
+name = "octoscript-oh-arkui"
+version = "0.1.0"
+dependencies = [
+ "cc",
+ "octoscript-core",
+ "serde_json",
+]
+
+[[package]]
+name = "octoscript-oh-cli"
+version = "0.1.0"
+dependencies = [
+ "octoscript-oh-core",
+ "serde",
+ "toml",
+]
+
+[[package]]
+name = "octoscript-oh-core"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "octoscript-oh-plugin-demo"
+version = "0.1.0"
+dependencies = [
+ "octoscript-oh-core",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "octoscript-oh-webview"
+version = "0.1.0"
+dependencies = [
+ "flutter-catalog",
+ "material-catalog",
+ "napi-derive-ohos",
+ "napi-ohos",
+ "octoscript-core",
+ "octoscript-oh-arkui",
+ "octoscript-oh-core",
+ "octoscript-oh-plugin-demo",
+ "serde",
+ "serde_json",
+ "taobao",
+ "tiktok",
+ "wechat",
+ "wonderous",
+ "wonderous-makepad",
+]
+
+[[package]]
+name = "octoscript-ui-l0"
+version = "0.1.0"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
+dependencies = [
+ "serde_json",
 ]
 
 [[package]]
@@ -368,72 +442,7 @@ checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
 [[package]]
 name = "smallvec"
 version = "1.15.1"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
-
-[[package]]
-name = "splash-core"
-version = "0.1.0"
-source = "git+https://github.com/ymote/Splash.git?branch=main#623d57c5c524f062ed5ddf8995cbed5b7b98e380"
-dependencies = [
- "makepad-script",
- "serde_json",
-]
-
-[[package]]
-name = "splash-oh-arkui"
-version = "0.1.0"
-dependencies = [
- "cc",
- "serde_json",
- "splash-core",
-]
-
-[[package]]
-name = "splash-oh-cli"
-version = "0.1.0"
-dependencies = [
- "serde",
- "splash-oh-core",
- "toml",
-]
-
-[[package]]
-name = "splash-oh-core"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "splash-oh-plugin-demo"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "splash-oh-core",
-]
-
-[[package]]
-name = "splash-oh-webview"
-version = "0.1.0"
-dependencies = [
- "flutter-catalog",
- "material-catalog",
- "napi-derive-ohos",
- "napi-ohos",
- "serde",
- "serde_json",
- "splash-core",
- "splash-oh-arkui",
- "splash-oh-core",
- "splash-oh-plugin-demo",
- "taobao",
- "tiktok",
- "wechat",
- "wonderous",
- "wonderous-makepad",
-]
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#50267c305c3adb614fabd7add0726ad161abb174"
 
 [[package]]
 name = "syn"
@@ -461,14 +470,14 @@ dependencies = [
 name = "taobao"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]
 name = "tiktok"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]
@@ -528,7 +537,7 @@ checksum = "c6f5d3c3b1bf09027a88a6bc961fc00497d651009560b5463668dc81b0fa87a8"
 name = "wechat"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]
@@ -550,15 +559,15 @@ dependencies = [
 name = "wonderous"
 version = "0.1.0"
 dependencies = [
+ "octoscript-oh-arkui",
  "serde_json",
- "splash-oh-arkui",
 ]
 
 [[package]]
 name = "wonderous-makepad"
 version = "0.1.0"
 dependencies = [
- "splash-oh-arkui",
+ "octoscript-oh-arkui",
 ]
 
 [[package]]

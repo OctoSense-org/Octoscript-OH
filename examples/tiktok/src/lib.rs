@@ -19,8 +19,8 @@
 //! `ReelActions` in the reference app is a column of four buttons, each a
 //! `View` wrapping a `Button` and a `Label`, so three nodes per action.
 
-use splash_oh_arkui::arkui::Node;
-use splash_oh_arkui::ui::*;
+use octoscript_oh_arkui::arkui::Node;
+use octoscript_oh_arkui::ui::*;
 
 const APP: &str = "tiktok";
 

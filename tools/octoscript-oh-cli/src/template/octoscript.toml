@@ -1,0 +1,40 @@
+# Everything about the app that is not code.
+#
+# These used to be spread across module.json5, app.json5 and the DevEco project
+# files, in three different spellings. One file, one place to change them.
+
+[app]
+name = "My Octoscript App"
+# Reverse-DNS, and it must be unique on the device — two apps sharing a bundle
+# id cannot both be installed.
+bundle-id = "com.example.myoctoscriptapp"
+version = "1.0.0"
+# Integer, must increase for an update to install over an older build.
+version-code = 1000000
+icon = "public/icon.png"
+
+[frontend]
+# What ships. Point this at your bundler's output.
+dist = "dist"
+# Where a live-reload build looks instead. Overridden by OCTOSCRIPT_DEV_SERVER.
+dev-server = "http://localhost:5173"
+
+[signing]
+# Material from AppGallery Connect. A release build needs all three, and the
+# profile is issued for one bundle id -- `octoscript-oh apply` checks that it
+# matches the one above, because a mismatch fails at install with an opaque
+# code rather than saying which id it wanted.
+#
+# p12     = "~/.ohos/config/release.p12"
+# cert    = "~/.ohos/config/release.cer"
+# profile = "~/.ohos/config/release.p7b"
+# alias   = "releaseKey"
+# Password comes from OCTOSCRIPT_SIGN_PWD in the environment, never from this file.
+
+[permissions]
+# Permissions the app declares. A page can only ever request from this set, and
+# only the user_grant ones are requestable at runtime at all.
+declare = [
+  "ohos.permission.INTERNET",
+  "ohos.permission.GET_NETWORK_INFO",
+]

@@ -1,11 +1,11 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/splash-oh-arkui",
-    "crates/splash-oh-core",
-    "tools/splash-oh-cli",
-    "crates/splash-oh-plugin-demo",
-    "crates/splash-oh-webview",
+    "crates/octoscript-oh-arkui",
+    "crates/octoscript-oh-core",
+    "tools/octoscript-oh-cli",
+    "crates/octoscript-oh-plugin-demo",
+    "crates/octoscript-oh-webview",
     "examples/wechat",
     "examples/taobao",
     "examples/tiktok",

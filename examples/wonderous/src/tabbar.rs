@@ -9,8 +9,8 @@
 //! same colour at half strength.
 
 use super::data::Wonder;
-use splash_oh_arkui::arkui::{attr, Node};
-use splash_oh_arkui::ui::*;
+use octoscript_oh_arkui::arkui::{attr, Node};
+use octoscript_oh_arkui::ui::*;
 
 const APP: &str = "wonders";
 /// `$styles.colors.accent1`.

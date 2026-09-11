@@ -1,4 +1,4 @@
-//! Generates the catalog's component ids from `assets/catalog.splash`.
+//! Generates the catalog's component ids from `assets/catalog.octoscript`.
 //!
 //! The DSL emits `NAV_BASE + row index` as a tap id, so the host has to map an
 //! index back to a screen name -- which means the same strings exist on both
@@ -10,7 +10,7 @@ fn main() {
     generate_catalog_screens();
 }
 
-/// Write the catalog's component ids out of `catalog.splash` and into a Rust
+/// Write the catalog's component ids out of `catalog.octoscript` and into a Rust
 /// constant.
 ///
 /// The DSL emits `NAV_BASE + row index` as a tap id, so the host has to map an
@@ -20,8 +20,8 @@ fn main() {
 /// another. Generating it removes the second copy instead of testing for it,
 /// which also suits a crate whose tests cannot link on the host.
 fn generate_catalog_screens() {
-    println!("cargo:rerun-if-changed=assets/catalog.splash");
-    let src = std::fs::read_to_string("assets/catalog.splash").expect("assets/catalog.splash");
+    println!("cargo:rerun-if-changed=assets/catalog.octoscript");
+    let src = std::fs::read_to_string("assets/catalog.octoscript").expect("assets/catalog.octoscript");
     let start = src.find("let COMPONENTS = [").expect("COMPONENTS list");
     let rest = &src[start..];
     let end = rest.find("\n]").expect("end of COMPONENTS");
@@ -33,14 +33,14 @@ fn generate_catalog_screens() {
         .collect();
     assert!(
         !ids.is_empty(),
-        "no component ids parsed from catalog.splash"
+        "no component ids parsed from catalog.octoscript"
     );
 
     let out = std::path::PathBuf::from(env::var("OUT_DIR").unwrap()).join("catalog_screens.rs");
     std::fs::write(
         &out,
         format!(
-            "/// Component ids, generated from assets/catalog.splash at build time.\n\
+            "/// Component ids, generated from assets/catalog.octoscript at build time.\n\
              pub const CATALOG_SCREENS: [&str; {}] = [\n{}\n];\n",
             ids.len(),
             ids.join("\n")

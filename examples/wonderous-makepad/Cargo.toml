@@ -8,4 +8,4 @@ description = "Wonderous, ported from project-robius/makepad_wonderous."
 name = "wonderous_makepad"
 
 [dependencies]
-splash-oh-arkui = { path = "../../crates/splash-oh-arkui" }
+octoscript-oh-arkui = { path = "../../crates/octoscript-oh-arkui" }

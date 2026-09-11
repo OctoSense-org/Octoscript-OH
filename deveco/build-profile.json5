@@ -34,7 +34,7 @@
   },
   "modules": [
     {
-      "name": "splash_oh",
+      "name": "octoscript_oh",
       "srcPath": "./entry",
       "targets": [
         {

@@ -24,7 +24,7 @@ wrong place to depend on.
 
 `Source::Html` (markup the app generated) and `Source::App` (a page from the
 shipped bundle) get one. `Source::Url` — someone else's page — never does. The
-browser card loads Wikipedia into a slot, and it holds no `splash_native`.
+browser card loads Wikipedia into a slot, and it holds no `octoscript_native`.
 
 `Source::App` is deliberately a separate kind from `Source::Url` even though it
 navigates to a URL, because the trust answer is the opposite. Folding them
@@ -55,7 +55,7 @@ Two layers now, each tested with the other disabled:
   the call still dies:
 
   ```
-  webslot: slot 1 declared splash://app but its document is on
+  webslot: slot 1 declared octoscript://app but its document is on
            https://example.com -- refusing to treat it as trusted
   bridge: refused log from untrusted slot 1
   ```
@@ -64,7 +64,7 @@ The observed-origin record is deliberately **not** cleared when slots are reset:
 a rebuild re-declares slots without reloading their documents, so clearing it
 would let a slot that had navigated away look untainted on the next rerender.
 
-A dev build's expected origin follows `SPLASH_DEV_SERVER`, or the guard would
+A dev build's expected origin follows `OCTOSCRIPT_DEV_SERVER`, or the guard would
 refuse the very page the build exists to load.
 
 ## 3–4. Capability sets
@@ -123,7 +123,7 @@ A bad name fails the **whole call** rather than being filtered out. Dropping one
 silently would leave the page believing it had asked and the user believing they
 had answered.
 
-The app's declared set comes from `splash.toml`; a page can never request
+The app's declared set comes from `octoscript.toml`; a page can never request
 outside it.
 
 ## Two bugs worth knowing about

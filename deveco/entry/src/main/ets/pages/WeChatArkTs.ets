@@ -1,10 +1,10 @@
 import { typeNode, FrameNode, UIContext } from '@kit.ArkUI';
-import splash from 'libsplash_oh.so';
+import octoscript from 'liboctoscript_oh.so';
 
 /**
  * The WeChat demo, built in ArkTS through `typeNode`.
  *
- * The same app as `crates/splash-oh/src/wechat/mod.rs`: same twelve chats, same
+ * The same app as `crates/octoscript-oh/src/wechat/mod.rs`: same twelve chats, same
  * CJK message bodies, same four tabs, same pushed routes. The data comes across
  * from Rust so neither implementation can render different content, and both
  * mount into the same `NodeContent`, so they can be swapped at runtime and
@@ -61,13 +61,13 @@ export class WeChatArkTs {
 
   constructor(ctx: UIContext) {
     this.ctx = ctx;
-    this.chats = splash.wechatChats() as Array<string>;
-    this.tabs_ = splash.wechatAssets('tabs') as Array<string>;
-    this.discover = splash.wechatAssets('discover') as Array<string>;
-    this.profile = splash.wechatAssets('profile') as Array<string>;
-    this.contactActions = splash.wechatAssets('contacts') as Array<string>;
-    this.contacts = splash.wechatContacts() as Array<string>;
-    this.moments = splash.wechatMoments() as Array<string>;
+    this.chats = octoscript.wechatChats() as Array<string>;
+    this.tabs_ = octoscript.wechatAssets('tabs') as Array<string>;
+    this.discover = octoscript.wechatAssets('discover') as Array<string>;
+    this.profile = octoscript.wechatAssets('profile') as Array<string>;
+    this.contactActions = octoscript.wechatAssets('contacts') as Array<string>;
+    this.contacts = octoscript.wechatContacts() as Array<string>;
+    this.moments = octoscript.wechatMoments() as Array<string>;
   }
 
   // --- leaves --------------------------------------------------------------
@@ -369,7 +369,7 @@ export class WeChatArkTs {
         }
       }
     } else if (this.route === RouteKind.Chat) {
-      const msgs: Array<string> = splash.wechatMessages(this.chatId) as Array<string>;
+      const msgs: Array<string> = octoscript.wechatMessages(this.chatId) as Array<string>;
       for (let i = 0; i < msgs.length; i++) {
         body.appendChild(this.messageRow(msgs[i]));
       }

@@ -2,13 +2,13 @@
 //! sample: one screen per widget family, every one of them a real ArkUI
 //! component created from Rust.
 //!
-//! This is deliberately written against the same vocabulary the Splash DSL
+//! This is deliberately written against the same vocabulary the Octoscript DSL
 //! uses (containers, text, controls), so the same tree shape can later be
 //! produced by the VM instead of by hand — see README "Where the DSL plugs in".
 
 include!(concat!(env!("OUT_DIR"), "/catalog_screens.rs"));
 
-use splash_oh_arkui::arkui::{attr, event, ty, Node};
+use octoscript_oh_arkui::arkui::{attr, event, ty, Node};
 
 // Apple-ish neutral palette, ARGB.
 const INK: u32 = 0xFF11_1418;
@@ -87,7 +87,7 @@ pub fn build() -> Option<Node> {
 
     let mut col = Node::new(ty::column())?.width(FULL);
 
-    col = col.child(title("Splash-OH")?);
+    col = col.child(title("Octoscript-OH")?);
     col = col.child(
         Node::new(ty::text())?
             .text("Every widget below is a native ArkUI component created from Rust. No ArkTS.")

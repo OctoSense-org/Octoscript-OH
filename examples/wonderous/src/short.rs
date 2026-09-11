@@ -14,8 +14,8 @@
 //! whole screen rather than this band.
 
 use super::data::{Anchor, Piece, Wonder, WONDERS};
-use splash_oh_arkui::arkui::{attr, ty, Node};
-use splash_oh_arkui::ui::*;
+use octoscript_oh_arkui::arkui::{attr, ty, Node};
+use octoscript_oh_arkui::ui::*;
 
 const APP: &str = "wonders";
 

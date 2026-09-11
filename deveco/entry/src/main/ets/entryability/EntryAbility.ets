@@ -5,7 +5,7 @@ import { webview } from '@kit.ArkWeb';
 /** Stock ability. All UI lives in Rust — see pages/Index.ets. */
 export default class EntryAbility extends UIAbility {
   /**
-   * Register the `splash://` scheme before anything can create a Web.
+   * Register the `octoscript://` scheme before anything can create a Web.
    *
    * This is the one part of the asset protocol that cannot be done later.
    * `customizeSchemes` is static and configures the web engine itself, so it
@@ -32,18 +32,18 @@ export default class EntryAbility extends UIAbility {
   onCreate(_want: Want, _launchParam: AbilityConstant.LaunchParam): void {
     try {
       webview.WebviewController.customizeSchemes([{
-        schemeName: 'splash',
+        schemeName: 'octoscript',
         isStandard: true,
         isSecure: true,
         isSupportCORS: true,
         isSupportFetch: true,
       }]);
-      console.info('SPLASHSCHEME registered splash://');
+      console.info('OCTOSCRIPTSCHEME registered octoscript://');
     } catch (e) {
       // 17100020 is "failed to register custom schemes". Worth distinguishing
       // from a silent no-op: everything downstream of it fails as a blank page
       // with no other symptom.
-      console.error('SPLASHSCHEME registration failed: ' + JSON.stringify(e));
+      console.error('OCTOSCRIPTSCHEME registration failed: ' + JSON.stringify(e));
     }
   }
 

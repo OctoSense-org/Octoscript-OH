@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Octoscript App</title>
+    <!-- Required. Without this there is no window.octoscript and no native calls.
+         Served by the app in a release build; by your dev server, from
+         public/__octoscript.js, while developing. Regenerate that copy with
+         `octoscript-oh shim` after upgrading. -->
+    <script src="/__octoscript.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
