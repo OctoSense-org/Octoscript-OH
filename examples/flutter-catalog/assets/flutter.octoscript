@@ -329,7 +329,7 @@ fn rule(color) { return {t: "column", h: 1, bg: color, fillw: 1} }
 // A page root: full width, background painted, content stacked down.
 //
 // Deliberately does NOT set `fillh`. The host mounts the kit into
-// `Octoscript{ height: Fit }`, so a root asking for `height: Fill` resolves against
+// `Splash{ height: Fit }`, so a root asking for `height: Fill` resolves against
 // a Fit parent and collapses to nothing — every screen renders blank. The
 // enclosing ScrollYView in the host provides the scrolling instead. Same reason
 // the scroll bodies below are width-fill and height-fit.
@@ -338,7 +338,7 @@ fn page(bg_color, kids) {
     //
     // Upstream's `Octoscript` mounts on an isolate VM, and makepad injects `ui` into
     // that VM resolved against *the octoscript's own view root* (see
-    // `inject_octoscript_ui_handle` in widgets/src/widget_async.rs, which returns
+    // `inject_splash_ui_handle` in widgets/src/widget_async.rs, which returns
     // early for the main VM). So a `tapto` handler's `ui.nav_signal` can only
     // ever see widgets inside the mounted subtree — the host's own nav_signal
     // Label, a sibling of the Octoscript widget, is invisible to it. Every tap was
