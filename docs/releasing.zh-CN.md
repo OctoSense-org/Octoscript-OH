@@ -10,7 +10,7 @@
 | | |
 |---|---|
 | 构建并装到自己的手机上 | 可以，本文所有检查都是这么跑的 |
-| 用你自己的名称、id、版本、图标 | 可以——`splash-oh apply` |
+| 用你自己的名称、id、版本、图标 | 可以——`octoscript-oh apply` |
 | 发布签名 | **没接通**：零件都在，但没连起来 |
 | 上架应用市场 | 需要 AGC 账号和一份发布描述文件 |
 
@@ -41,14 +41,14 @@ OHOS_SIGN_PROFILE   描述文件 .p7b
 它之所以存在，是因为 hvigor 自带的 `SignHap` 任务在无 IDE 环境下不可用：它要求
 `build-profile.json5` 里的密码字段是 DevEco 加密过的串，而那种串只有 IDE 能生成。
 
-**`splash.toml`** 里有一个 `[signing]` 段，指明那三个文件和 alias。密码从环境
-变量 `SPLASH_SIGN_PWD` 读，绝不写进文件。
+**`octoscript.toml`** 里有一个 `[signing]` 段，指明那三个文件和 alias。密码从环境
+变量 `OCTOSCRIPT_SIGN_PWD` 读，绝不写进文件。
 
-**`splash-oh apply`** 会在写入任何东西之前，用你的 bundle id 校验描述文件：
+**`octoscript-oh apply`** 会在写入任何东西之前，用你的 bundle id 校验描述文件：
 
 ```
-splash-oh: the provisioning profile is issued for "com.example.myapplication",
-           but splash.toml says "com.futurewei.weatherdeck".
+octoscript-oh: the provisioning profile is issued for "com.example.myapplication",
+           but octoscript.toml says "com.futurewei.weatherdeck".
 ```
 
 一份描述文件只对应一个 bundle id。没有这道检查，不一致会在安装时表现为一个两个
@@ -67,7 +67,7 @@ id 都不提的数字码。
    `"type":"debug"`，绑定在 `com.example.myapplication` 上。
 
 3. **把 `[app] bundle-id` 改成一致**，并让 `[signing] profile` 指向新的 `.p7b`。
-   跑 `splash-oh apply`——不一致的话它会立刻告诉你。
+   跑 `octoscript-oh apply`——不一致的话它会立刻告诉你。
 
 4. **把 `[signing]` 接到 `sign-hap.sh`。** 剩下的代码，最好是拿到真实材料后一次
    写完并测完。

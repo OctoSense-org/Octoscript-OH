@@ -17,7 +17,7 @@
 
   There are two gates and this page is written to tell them apart:
 
-    ArkTS  -- declines to attach javaScriptProxy, so `splash_native` is absent.
+    ArkTS  -- declines to attach javaScriptProxy, so `octoscript_native` is absent.
     Rust   -- bridge::invoke refuses any call from a slot it did not generate.
 
   The Rust one is the load-bearing one; the ArkTS one sits next to the untrusted
@@ -72,15 +72,15 @@
   // 1. The raw proxy ArkWeb would inject. With the ArkTS gate in place this is
   //    absent; under fault injection it is present, and then the Rust gate is
   //    what has to hold.
-  var hasNative = !!(window.splash_native && window.splash_native.invoke);
-  report('window.splash_native (ArkTS gate)', hasNative ? 'warn' : 'ok',
+  var hasNative = !!(window.octoscript_native && window.octoscript_native.invoke);
+  report('window.octoscript_native (ArkTS gate)', hasNative ? 'warn' : 'ok',
          hasNative ? 'PRESENT' : 'absent');
 
   // 2. The promise shim. Only injected into generated pages, so a URL slot
   //    should never have it -- and a page that wanted one would just write it,
   //    which is what this file does below.
-  var hasShim = !!(window.splash && window.splash.invoke);
-  report('window.splash shim', hasShim ? 'warn' : 'ok',
+  var hasShim = !!(window.octoscript && window.octoscript.invoke);
+  report('window.octoscript shim', hasShim ? 'warn' : 'ok',
          hasShim ? 'PRESENT' : 'absent');
 
   if (!hasNative && !hasShim) {
@@ -88,19 +88,19 @@
     return;
   }
 
-  // 3. Capability exists, so use it. Calls go through splash_native directly,
+  // 3. Capability exists, so use it. Calls go through octoscript_native directly,
   //    bypassing the shim's bookkeeping entirely -- exactly what a hostile page
   //    would do, and the reason the enforcing check lives in Rust.
   //
-  //    ArkTS answers a call by evaluating `window.splash._resolve(id, payload)`
+  //    ArkTS answers a call by evaluating `window.octoscript._resolve(id, payload)`
   //    into the page. An untrusted slot has no shim to receive that, so the
   //    page supplies its own. Nothing stops it: the reply channel is not a
   //    capability, it is just a function name.
-  var TOOLS = ['device.info', 'log', 'echo', 'splash.eval', 'http.get'];
+  var TOOLS = ['device.info', 'log', 'echo', 'octoscript.eval', 'http.get'];
   var pending = {}, settled = 0;
 
-  var prior = window.splash;
-  window.splash = {
+  var prior = window.octoscript;
+  window.octoscript = {
     _resolve: function (id, payload) {
       var t = pending[String(id)];
       if (!t) { return; }
@@ -118,7 +118,7 @@
     invoke: prior && prior.invoke
   };
 
-  var native = window.splash_native || (prior && prior._native);
+  var native = window.octoscript_native || (prior && prior._native);
   for (var i = 0; i < TOOLS.length; i++) {
     var id = 'probe-' + i;
     pending[id] = TOOLS[i];

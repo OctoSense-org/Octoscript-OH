@@ -2,11 +2,11 @@
 
 *[English version](plugins.md)*
 
-插件给页面添加可以按名字调用的原生工具。它只依赖 `splash-oh-core`——不依赖桥接
+插件给页面添加可以按名字调用的原生工具。它只依赖 `octoscript-oh-core`——不依赖桥接
 层，不依赖 napi，不依赖 ArkTS。
 
 ```rust
-use splash_oh_core::{Args, Registry, Responder};
+use octoscript_oh_core::{Args, Registry, Responder};
 
 #[derive(serde::Deserialize)]
 struct Greet { name: String }
@@ -22,7 +22,7 @@ pub fn register(r: &mut Registry) {
 ```
 
 ```js
-await splash.invoke('app.greet', { name: 'world' })   // "hello, world"
+await octoscript.invoke('app.greet', { name: 'world' })   // "hello, world"
 ```
 
 ## 参数与返回值
@@ -71,9 +71,9 @@ r.add("app.slow", "Fetch something", |args: &Args, resp: Responder| {
 注册是启动时的一次显式调用，不是链接期的把戏：
 
 ```rust
-// crates/splash-oh/src/lib.rs，在 mount() 里
-splash_oh_core::with_registry_mut(|r| {
-    splash_oh_plugin_demo::register(r);
+// crates/octoscript-oh/src/lib.rs，在 mount() 里
+octoscript_oh_core::with_registry_mut(|r| {
+    octoscript_oh_plugin_demo::register(r);
     my_app_plugin::register(r);          // 你的
 });
 ```
@@ -90,14 +90,14 @@ splash_oh_core::with_registry_mut(|r| {
 
 ## 把你自己的 crate 接进去
 
-在 Splash-OH 那份源码里改两处，因为 `.so` 在那边构建，而 `cdylib` 是最终产物——
+在 Octoscript-OH 那份源码里改两处，因为 `.so` 在那边构建，而 `cdylib` 是最终产物——
 只有产出它的 crate 才能把插件拉进二进制：
 
-1. `crates/splash-oh/Cargo.toml`
+1. `crates/octoscript-oh/Cargo.toml`
    ```toml
    my-app-plugin = { path = "../../my-app/plugin" }
    ```
-2. `crates/splash-oh/src/lib.rs`，`mount()` 里已有插件的旁边
+2. `crates/octoscript-oh/src/lib.rs`，`mount()` 里已有插件的旁边
    ```rust
    my_app_plugin::register(r);
    ```

@@ -11,7 +11,7 @@ for it is **not finished**. This page says exactly where the line is.
 | | |
 |---|---|
 | build and install on your own phone | works, this is what every check here runs on |
-| your own name, id, version, icon | works — `splash-oh apply` |
+| your own name, id, version, icon | works — `octoscript-oh apply` |
 | release signing | **not wired**: the pieces exist, nothing connects them |
 | AppGallery distribution | needs an AGC account and a release profile |
 
@@ -45,16 +45,16 @@ It exists because hvigor's own `SignHap` task is unusable headlessly: it
 requires the password fields in `build-profile.json5` to be DevEco-encrypted
 blobs, and only the IDE can produce those.
 
-**`splash.toml`** has a `[signing]` section naming the three files and the
-alias. The password is read from `SPLASH_SIGN_PWD` in the environment, never
+**`octoscript.toml`** has a `[signing]` section naming the three files and the
+alias. The password is read from `OCTOSCRIPT_SIGN_PWD` in the environment, never
 from the file.
 
-**`splash-oh apply`** validates the profile against your bundle id before
+**`octoscript-oh apply`** validates the profile against your bundle id before
 anything is written:
 
 ```
-splash-oh: the provisioning profile is issued for "com.example.myapplication",
-           but splash.toml says "com.futurewei.weatherdeck".
+octoscript-oh: the provisioning profile is issued for "com.example.myapplication",
+           but octoscript.toml says "com.futurewei.weatherdeck".
 ```
 
 A profile is issued for exactly one bundle id. Without this check a mismatch
@@ -74,7 +74,7 @@ material that only the account holder has.
    machine today is `"type":"debug"`, bound to `com.example.myapplication`.
 
 3. **Set `[app] bundle-id` to match**, and point `[signing] profile` at the new
-   `.p7b`. Run `splash-oh apply` — it will tell you at once if they disagree.
+   `.p7b`. Run `octoscript-oh apply` — it will tell you at once if they disagree.
 
 4. **Wire `[signing]` to `sign-hap.sh`.** The remaining code, best written and
    tested against real material in one sitting.

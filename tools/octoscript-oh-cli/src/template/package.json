@@ -1,0 +1,13 @@
+{
+  "name": "my-octoscript-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "shim": "octoscript-oh shim"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}

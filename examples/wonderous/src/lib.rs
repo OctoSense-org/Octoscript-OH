@@ -30,7 +30,7 @@ pub mod viewers;
 
 /// The id a screen root reports the moment ArkUI mounts it.
 ///
-/// Declared here rather than beside its only user in `splash-oh`, so that
+/// Declared here rather than beside its only user in `octoscript-oh`, so that
 /// `ids_are_unique` can see it: a constant the test cannot reach is a constant
 /// that can collide silently.
 pub const SCREEN_APPEAR: i32 = 7440;
@@ -56,7 +56,7 @@ pub fn hits(
     frame_w: f32,
     frame_h: f32,
     targets: &[(f32, f32, f32, f32, i32)],
-) -> Option<splash_oh_arkui::arkui::Node> {
+) -> Option<octoscript_oh_arkui::arkui::Node> {
     hits_swipe(frame_w, frame_h, targets, None)
 }
 
@@ -71,9 +71,9 @@ pub fn hits_swipe(
     frame_h: f32,
     targets: &[(f32, f32, f32, f32, i32)],
     swipe: Option<i32>,
-) -> Option<splash_oh_arkui::arkui::Node> {
-    use splash_oh_arkui::arkui::attr;
-    use splash_oh_arkui::ui::{col, row, spacer, tap_col};
+) -> Option<octoscript_oh_arkui::arkui::Node> {
+    use octoscript_oh_arkui::arkui::attr;
+    use octoscript_oh_arkui::ui::{col, row, spacer, tap_col};
 
     /// `ARKUI_HIT_TEST_MODE_NONE`: this node never takes the touch itself.
     const HIT_NONE: i32 = 3;
@@ -97,7 +97,7 @@ pub fn hits_swipe(
     // Kept: this line is what found the menu passing a one-element literal
     // where it meant to pass its ten targets. A screen whose taps do nothing
     // looks identical whether the targets are misplaced or were never built.
-    splash_oh_arkui::log(&format!(
+    octoscript_oh_arkui::log(&format!(
         "wonders/hits: {} target(s) in {} band(s)",
         targets.len(),
         bands.len()
@@ -124,7 +124,7 @@ pub fn hits_swipe(
             // then nothing in it is reachable. Skipping loudly beats a screen
             // where every tap silently misses.
             if tx + tw > frame_w + 0.5 || tx < x {
-                splash_oh_arkui::log(&format!(
+                octoscript_oh_arkui::log(&format!(
                     "wonders/hits: target {id} does not fit its band (x {tx}..{}) — skipped",
                     tx + tw
                 ));
@@ -135,7 +135,7 @@ pub fn hits_swipe(
             }
             let mut t = tap_col(tw, th, 0x00000000, id)?;
             if let Some(base) = swipe {
-                t = t.on_event(splash_oh_arkui::arkui::event::touch(), base);
+                t = t.on_event(octoscript_oh_arkui::arkui::event::touch(), base);
             }
             line = line.child(t);
             x = tx + tw;

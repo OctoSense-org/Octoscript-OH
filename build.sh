@@ -9,7 +9,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")"
-export SPLASH_FRONTEND_DIR="${SPLASH_FRONTEND_DIR:-}"
+export OCTOSCRIPT_FRONTEND_DIR="${OCTOSCRIPT_FRONTEND_DIR:-}"
 source ~/ohos-sdk/env-deveco.sh >/dev/null 2>&1
 export OHOS_SDK_NATIVE="$OHOS_BASE_SDK_HOME/21/native"
 export DEVECO_SDK_HOME="$DEVECO_HOME/sdk"
@@ -30,7 +30,7 @@ cargo build --target aarch64-unknown-linux-ohos --release >/dev/null 2>&1 || {
 }
 
 echo "==> stage .so"
-cp target/aarch64-unknown-linux-ohos/release/libsplash_oh.so deveco/entry/libs/arm64-v8a/
+cp target/aarch64-unknown-linux-ohos/release/liboctoscript_oh.so deveco/entry/libs/arm64-v8a/
 
 echo "==> hvigor"
 ( cd deveco && node "$DEVECO_HOME/tools/hvigor/bin/hvigorw.js" \
@@ -42,7 +42,7 @@ if [ "${1:-}" = "--build-only" ]; then
 fi
 
 echo "==> install"
-HAP=deveco/entry/build/default/outputs/default/splash_oh-default-signed.hap
+HAP=deveco/entry/build/default/outputs/default/octoscript_oh-default-signed.hap
 hdc -t "$DEVICE" file send "$HAP" /data/local/tmp/s.hap >/dev/null 2>&1
 hdc -t "$DEVICE" shell bm install -p /data/local/tmp/s.hap 2>&1 | tail -1
 

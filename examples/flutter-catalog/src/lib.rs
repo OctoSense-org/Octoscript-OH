@@ -1,8 +1,8 @@
 //! The flutter/samples catalog, built in Rust straight into ArkUI nodes.
 //!
 //! This is the ArkUI *implementation* of the catalog, not a rendering of a
-//! shared description of it. There used to be one `.splash` kit authored in
-//! Splash-Makepad and vendored here, walked by `dsl.rs` — one source, two
+//! shared description of it. There used to be one `.octoscript` kit authored in
+//! Octoscript-Makepad and vendored here, walked by `dsl.rs` — one source, two
 //! backends. That bought consistency at the price of every screen being written
 //! to the intersection of what both toolkits can express, and the seams showed:
 //! eleven `pick_if(st.backend == "arkui", …)` branches, a `restfill()` helper
@@ -30,7 +30,7 @@
 //! navigates by *name*, and an ArkUI event carries only an i32), and state
 //! actions get their own block above them.
 
-use splash_oh_arkui::arkui::{attr, ty, Node};
+use octoscript_oh_arkui::arkui::{attr, ty, Node};
 
 mod index;
 
@@ -353,25 +353,25 @@ pub fn para(s: &str, size: f32, color: u32, w: f32) -> Option<Node> {
 /// and `SwitchListTile` do, and what a 18x18 box needs, being well under the
 /// 48dp a finger wants.
 pub fn tap_row(w: f32, h: f32, bg: u32, route: &str) -> Option<Node> {
-    Some(row(w, h, bg)?.on_event(splash_oh_arkui::arkui::event::click(), intern(route)))
+    Some(row(w, h, bg)?.on_event(octoscript_oh_arkui::arkui::event::click(), intern(route)))
 }
 
 pub fn tap_row_fit(w: f32, bg: u32, route: &str) -> Option<Node> {
-    Some(row_fit(w, bg)?.on_event(splash_oh_arkui::arkui::event::click(), intern(route)))
+    Some(row_fit(w, bg)?.on_event(octoscript_oh_arkui::arkui::event::click(), intern(route)))
 }
 
 /// A row whose tap changes state instead of navigating. The action string is
 /// the same grammar `state::apply` already parses — `key=!`, `key=+1`, `key=~n`.
 pub fn act_row(w: f32, h: f32, bg: u32, action: &str) -> Option<Node> {
     Some(row(w, h, bg)?.on_event(
-        splash_oh_arkui::arkui::event::click(),
+        octoscript_oh_arkui::arkui::event::click(),
         intern_action(action),
     ))
 }
 
 pub fn act_row_fit(w: f32, bg: u32, action: &str) -> Option<Node> {
     Some(row_fit(w, bg)?.on_event(
-        splash_oh_arkui::arkui::event::click(),
+        octoscript_oh_arkui::arkui::event::click(),
         intern_action(action),
     ))
 }

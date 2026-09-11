@@ -3,11 +3,11 @@
 *[中文版](plugins.zh-CN.md)*
 
 A plugin adds native tools a page can call by name. It depends on
-`splash-oh-core` and nothing else — not on the bridge, not on napi, not on
+`octoscript-oh-core` and nothing else — not on the bridge, not on napi, not on
 ArkTS.
 
 ```rust
-use splash_oh_core::{Args, Registry, Responder};
+use octoscript_oh_core::{Args, Registry, Responder};
 
 #[derive(serde::Deserialize)]
 struct Greet { name: String }
@@ -23,7 +23,7 @@ pub fn register(r: &mut Registry) {
 ```
 
 ```js
-await splash.invoke('app.greet', { name: 'world' })   // "hello, world"
+await octoscript.invoke('app.greet', { name: 'world' })   // "hello, world"
 ```
 
 ## Arguments and results
@@ -76,9 +76,9 @@ you cannot. A tool that takes more than 45 s is timed out regardless.
 Registration is an explicit call at startup, not a link-time trick:
 
 ```rust
-// crates/splash-oh-webview/src/lib.rs, in mount()
-splash_oh_core::with_registry_mut(|r| {
-    splash_oh_plugin_demo::register(r);
+// crates/octoscript-oh-webview/src/lib.rs, in mount()
+octoscript_oh_core::with_registry_mut(|r| {
+    octoscript_oh_plugin_demo::register(r);
     my_app_plugin::register(r);          // yours
 });
 ```
@@ -97,15 +97,15 @@ actually contains rather than what the documentation claims.
 
 ## Wiring your own crate in
 
-Two edits in the Splash-OH checkout, because the `.so` is built there and a
+Two edits in the Octoscript-OH checkout, because the `.so` is built there and a
 `cdylib` is a final artifact — only the crate producing it can pull a plugin
 into the binary:
 
-1. `crates/splash-oh-webview/Cargo.toml`
+1. `crates/octoscript-oh-webview/Cargo.toml`
    ```toml
    my-app-plugin = { path = "../../my-app/plugin" }
    ```
-2. `crates/splash-oh-webview/src/lib.rs`, beside the existing plugin in `mount()`
+2. `crates/octoscript-oh-webview/src/lib.rs`, beside the existing plugin in `mount()`
    ```rust
    my_app_plugin::register(r);
    ```

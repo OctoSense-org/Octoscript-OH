@@ -1,8 +1,8 @@
 import { typeNode, FrameNode, UIContext } from '@kit.ArkUI';
-import splash from 'libsplash_oh.so';
+import octoscript from 'liboctoscript_oh.so';
 
 /**
- * ArkTS twins of the three apps ported in `crates/splash-oh/src/apps/`:
+ * ArkTS twins of the three apps ported in `crates/octoscript-oh/src/apps/`:
  * Taobao, TikTok and Wonderous.
  *
  * Each builds the identical tree its Rust counterpart builds — same node types,
@@ -139,8 +139,8 @@ export class Taobao {
 
   constructor(ctx: UIContext) {
     this.u = new Ui(ctx);
-    this.products = splash.appData('taobao.products') as Array<string>;
-    this.tabs = splash.appData('taobao.tabs') as Array<string>;
+    this.products = octoscript.appData('taobao.products') as Array<string>;
+    this.tabs = octoscript.appData('taobao.tabs') as Array<string>;
   }
 
   private header(): FrameNode {
@@ -320,7 +320,7 @@ export class TikTok {
 
   constructor(ctx: UIContext) {
     this.u = new Ui(ctx);
-    this.reels = splash.appData('tiktok.reels') as Array<string>;
+    this.reels = octoscript.appData('tiktok.reels') as Array<string>;
   }
 
   private header(active: number): FrameNode {
@@ -484,11 +484,11 @@ export class Wonderous {
 
   constructor(ctx: UIContext) {
     this.u = new Ui(ctx);
-    this.wonders = splash.appData('wonderous.wonders') as Array<string>;
-    this.tabs = splash.appData('wonderous.tabs') as Array<string>;
-    this.sections = splash.appData('wonderous.sections') as Array<string>;
-    this.artifacts = splash.appData('wonderous.artifacts') as Array<string>;
-    this.timeline = splash.appData('wonderous.timeline') as Array<string>;
+    this.wonders = octoscript.appData('wonderous.wonders') as Array<string>;
+    this.tabs = octoscript.appData('wonderous.tabs') as Array<string>;
+    this.sections = octoscript.appData('wonderous.sections') as Array<string>;
+    this.artifacts = octoscript.appData('wonderous.artifacts') as Array<string>;
+    this.timeline = octoscript.appData('wonderous.timeline') as Array<string>;
   }
 
   private hero(w: number): FrameNode {

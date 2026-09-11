@@ -22,7 +22,7 @@
 
 `Source::Html`（应用自己生成的标记）和 `Source::App`（来自随包资源的页面）拿得
 到。`Source::Url`——别人的页面——永远拿不到。浏览器卡片把维基百科加载进一个 slot，
-它身上没有 `splash_native`。
+它身上没有 `octoscript_native`。
 
 `Source::App` 特意和 `Source::Url` 分成两种，尽管它也是导航到一个 URL，因为信任
 的答案是相反的。把它们合并会让"是否可信"变成一个关于字符串前缀的问题。
@@ -50,7 +50,7 @@ page: SPOKE FROM https://example.com
   `invoke` **也没有**抛异常，调用依然死在这里：
 
   ```
-  webslot: slot 1 declared splash://app but its document is on
+  webslot: slot 1 declared octoscript://app but its document is on
            https://example.com -- refusing to treat it as trusted
   bridge: refused log from untrusted slot 1
   ```
@@ -58,7 +58,7 @@ page: SPOKE FROM https://example.com
 已观测 origin 的记录**特意不**随 slot 重置而清空：一次重建会重新声明 slot 但不会
 重新加载它们的文档，清空的话，一个已经跑掉的 slot 在下一次重绘时就又显得干净了。
 
-开发构建的预期 origin 跟随 `SPLASH_DEV_SERVER`，否则这道守卫会拒绝掉这个构建
+开发构建的预期 origin 跟随 `OCTOSCRIPT_DEV_SERVER`，否则这道守卫会拒绝掉这个构建
 存在的意义所在的那个页面。
 
 ## 3–4. 能力集
@@ -110,7 +110,7 @@ surface 应该声明自己需要什么。
 一个不合法的名字会让**整次调用**失败，而不是把它从列表里过滤掉。悄悄丢掉一个，
 会让页面以为自己申请过了，也让用户以为自己回答过了。
 
-应用声明的集合来自 `splash.toml`；页面永远无法申请这个集合之外的东西。
+应用声明的集合来自 `octoscript.toml`；页面永远无法申请这个集合之外的东西。
 
 ## 两个值得知道的 bug
 

@@ -9,17 +9,17 @@ import { pasteboard } from '@kit.BasicServicesKit';
 import { abilityAccessCtrl, Permissions, PermissionRequestResult } from '@kit.AbilityKit';
 import { ble } from '@kit.ConnectivityKit';
 import { window } from '@kit.ArkUI';
-import splash from 'libsplash_oh.so';
+import octoscript from 'liboctoscript_oh.so';
 import { WeChatArkTs, LoadGenerator, RouteKind } from './WeChatArkTs';
 import { Taobao, TikTok, Wonderous } from './AppsArkTs';
 import { WonderousArkTs, S_INTRO, S_HOME, S_DETAILS, S_MENU, S_COLLECTION, S_TIMELINE, S_SEARCH, S_ARTIFACT } from './WonderousArkTs';
 import { dataIsWellFormed } from './WonderousData';
 
 /**
- * When true the app is the YouTube demo: Splash-OH renders the native chrome
- * bar (from assets/youtube.splash) and an ArkTS `Web` runs the YouTube web app
+ * When true the app is the YouTube demo: Octoscript-OH renders the native chrome
+ * bar (from assets/youtube.octoscript) and an ArkTS `Web` runs the YouTube web app
  * below it. OpenHarmony's WebView is ArkTS-only, so this hybrid is how a
- * Splash-OH app hosts a WebView. Set false for the original WeChat benchmark.
+ * Octoscript-OH app hosts a WebView. Set false for the original WeChat benchmark.
  */
 /** Start in the browser card, which is the app that exercises the web overlay.
  *  Empty string starts in the benchmark harness instead. */
@@ -65,7 +65,7 @@ const RERENDER_EVERY_MS: number = 0;
  * Navigate slot 1 to this origin after it loads, or '' to leave it alone.
  *
  * Answers one question: trust is recorded per *slot*, but `javaScriptProxy` is
- * attached to the *component*. If a trusted `splash://` page navigates itself
+ * attached to the *component*. If a trusted `octoscript://` page navigates itself
  * somewhere else, does the bridge go with it? Rust's `is_trusted` reads the
  * slot's Source, which is still App — so if ArkTS re-injects the proxy into the
  * new document, both gates say yes and a remote page holds all 48 tools.
@@ -139,15 +139,15 @@ const MEM_COPIES: number = 12;
 const MEM_APP: number = 2;
 
 /**
- * The object ArkWeb injects into a page as `splash_native`.
+ * The object ArkWeb injects into a page as `octoscript_native`.
  *
  * `javaScriptProxy` can only expose synchronous, void methods -- it cannot
  * return a promise or a value asynchronously. So a call is split: the page
  * hands over a callId here, and Rust's answer is evaluated back into the page
- * later as `splash._resolve(callId, payload)`. The shim in `bridge.rs` wraps
+ * later as `octoscript._resolve(callId, payload)`. The shim in `bridge.rs` wraps
  * that pair into the promise API a page actually wants.
  */
-class SplashNativeBridge {
+class OctoscriptNativeBridge {
   private slot: number = 0;
 
   constructor(slot: number) {
@@ -155,7 +155,7 @@ class SplashNativeBridge {
   }
 
   invoke(callId: string, tool: string, args: string): void {
-    splash.webBridgeInvoke(this.slot, String(callId), tool, args);
+    octoscript.webBridgeInvoke(this.slot, String(callId), tool, args);
   }
 }
 
@@ -183,14 +183,14 @@ struct Index {
    * what a back gesture should do there.
    */
   onBackPress(): boolean {
-    return splash.goBack() as boolean;
+    return octoscript.goBack() as boolean;
   }
 
   private wc: WeChatArkTs | null = null;
   private load: LoadGenerator = new LoadGenerator();
   private useRust: boolean = true;
   /**
-   * Web surfaces the current Splash tree asked for, as "id|url|x|y|w|h".
+   * Web surfaces the current Octoscript tree asked for, as "id|url|x|y|w|h".
    *
    * There is no ARKUI_NODE_WEB, so Rust cannot build a web view; it builds a
    * transparent placeholder and records where it went. This puts a real `Web`
@@ -227,17 +227,17 @@ struct Index {
   /** One bridge object per slot, kept out of @State for the same reason the
    *  controllers are: a proxy-wrapped object handed to javaScriptProxy is
    *  inert. */
-  private bridges: Map<string, SplashNativeBridge> = new Map();
+  private bridges: Map<string, OctoscriptNativeBridge> = new Map();
 
   /** The app's own window, needed to launch the system picker over it.
    *  Resolved once at startup; a pick before it lands is reported rather
    *  than silently doing nothing. */
   private mainWindow: window.Window | undefined = undefined;
 
-  private bridgeFor(id: string): SplashNativeBridge {
+  private bridgeFor(id: string): OctoscriptNativeBridge {
     let b = this.bridges.get(id);
     if (b === undefined) {
-      b = new SplashNativeBridge(Number(id));
+      b = new OctoscriptNativeBridge(Number(id));
       this.bridges.set(id, b);
     }
     return b;
@@ -272,9 +272,9 @@ struct Index {
     const payload: string = line.substring(b + 1);
     try {
       const js: string = id.charAt(0) === '@'
-        ? 'window.splash&&window.splash._event&&window.splash._event('
+        ? 'window.octoscript&&window.octoscript._event&&window.octoscript._event('
           + JSON.stringify(id.substring(1)) + ',' + payload + ')'
-        : 'window.splash&&window.splash._resolve&&window.splash._resolve('
+        : 'window.octoscript&&window.octoscript._resolve&&window.octoscript._resolve('
           + JSON.stringify(id) + ',' + payload + ')';
       this.controllerFor(slot).runJavaScript(js);
     } catch (e) {
@@ -283,7 +283,7 @@ struct Index {
   }
 
   private pumpBridge(): void {
-    const replies: Array<string> = splash.webBridgeDrain() as Array<string>;
+    const replies: Array<string> = octoscript.webBridgeDrain() as Array<string>;
     for (let i = 0; i < replies.length; i++) {
       const r = replies[i];
       const a = r.indexOf('|');
@@ -296,7 +296,7 @@ struct Index {
       const payload = r.substring(b + 1);
       try {
         this.controllerFor(slot).runJavaScript(
-          'window.splash&&window.splash._resolve&&window.splash._resolve('
+          'window.octoscript&&window.octoscript._resolve&&window.octoscript._resolve('
           + JSON.stringify(callId) + ',' + payload + ')');
       } catch (e) {
         console.error('bridge reply to slot ' + slot + ' failed: ' + JSON.stringify(e));
@@ -317,7 +317,7 @@ struct Index {
    * is reported as a failed call rather than left to hang the page's promise.
    */
   private pumpPicks(): void {
-    const reqs: Array<string> = splash.pickDrain() as Array<string>;
+    const reqs: Array<string> = octoscript.pickDrain() as Array<string>;
     for (let i = 0; i < reqs.length; i++) {
       // reqId|op|args — args last because it may itself contain a separator.
       const a = reqs[i].indexOf('|');
@@ -348,7 +348,7 @@ struct Index {
 
       const folder = args === 'folder';
       if (this.mainWindow === undefined) {
-        splash.pickResolve(reqId, false, 'window not ready');
+        octoscript.pickResolve(reqId, false, 'window not ready');
         continue;
       }
       try {
@@ -379,12 +379,12 @@ struct Index {
             const fu = new fileUri.FileUri(uris[k]);
             out.push({ 'uri': uris[k], 'path': fu.path, 'name': fu.name });
           }
-          splash.pickResolve(reqId, true, JSON.stringify(out));
+          octoscript.pickResolve(reqId, true, JSON.stringify(out));
         }).catch((e: Error) => {
-          splash.pickResolve(reqId, false, 'picker: ' + e.message);
+          octoscript.pickResolve(reqId, false, 'picker: ' + e.message);
         });
       } catch (e) {
-        splash.pickResolve(reqId, false, 'picker unavailable: ' + JSON.stringify(e));
+        octoscript.pickResolve(reqId, false, 'picker unavailable: ' + JSON.stringify(e));
       }
     }
   }
@@ -424,12 +424,12 @@ struct Index {
             }
           }
           out += '],"asked":' + r.permissions.length + '}';
-          splash.pickResolve(reqId, true, out);
+          octoscript.pickResolve(reqId, true, out);
         }).catch((e: Error) => {
-          splash.pickResolve(reqId, false, 'permission request: ' + e.message);
+          octoscript.pickResolve(reqId, false, 'permission request: ' + e.message);
         });
     } catch (e) {
-      splash.pickResolve(reqId, false, 'permission request failed: ' + JSON.stringify(e));
+      octoscript.pickResolve(reqId, false, 'permission request failed: ' + JSON.stringify(e));
     }
   }
 
@@ -484,10 +484,10 @@ struct Index {
           first = false;
         });
         out += '],"count":' + seen.size + '}';
-        splash.pickResolve(reqId, true, out);
+        octoscript.pickResolve(reqId, true, out);
       }, 4000);
     } catch (e) {
-      splash.pickResolve(reqId, false, 'ble scan: ' + JSON.stringify(e));
+      octoscript.pickResolve(reqId, false, 'ble scan: ' + JSON.stringify(e));
     }
   }
 
@@ -501,15 +501,15 @@ struct Index {
         // strings do the escaping, and the shape is then unambiguous.
         const text: string = data.getPrimaryText();
         const mime: string = data.getPrimaryMimeType();
-        splash.pickResolve(reqId, true,
+        octoscript.pickResolve(reqId, true,
           '{"text":' + JSON.stringify(text === undefined ? '' : text)
           + ',"mimeType":' + JSON.stringify(mime === undefined ? '' : mime)
           + ',"records":' + data.getRecordCount() + '}');
       }).catch((e: Error) => {
-        splash.pickResolve(reqId, false, 'clipboard: ' + e.message);
+        octoscript.pickResolve(reqId, false, 'clipboard: ' + e.message);
       });
     } catch (e) {
-      splash.pickResolve(reqId, false, 'clipboard unavailable: ' + JSON.stringify(e));
+      octoscript.pickResolve(reqId, false, 'clipboard unavailable: ' + JSON.stringify(e));
     }
   }
 
@@ -517,12 +517,12 @@ struct Index {
     try {
       const data = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, text);
       pasteboard.getSystemPasteboard().setData(data).then(() => {
-        splash.pickResolve(reqId, true, '{"wrote":' + text.length + '}');
+        octoscript.pickResolve(reqId, true, '{"wrote":' + text.length + '}');
       }).catch((e: Error) => {
-        splash.pickResolve(reqId, false, 'clipboard: ' + e.message);
+        octoscript.pickResolve(reqId, false, 'clipboard: ' + e.message);
       });
     } catch (e) {
-      splash.pickResolve(reqId, false, 'clipboard unavailable: ' + JSON.stringify(e));
+      octoscript.pickResolve(reqId, false, 'clipboard unavailable: ' + JSON.stringify(e));
     }
   }
 
@@ -536,7 +536,7 @@ struct Index {
    * or the surface is white.
    */
   private pumpPainted(): void {
-    const ids: Array<string> = splash.webSlotsPainted() as Array<string>;
+    const ids: Array<string> = octoscript.webSlotsPainted() as Array<string>;
     for (let i = 0; i < ids.length; i++) {
       const key: string | undefined = this.loaded.get(ids[i]);
       if (key !== undefined) {
@@ -547,7 +547,7 @@ struct Index {
   }
 
   /**
-   * Install the `splash://` handler on a slot's controller.
+   * Install the `octoscript://` handler on a slot's controller.
    *
    * Called from `onControllerAttached`, which is the only window that works.
    * The scheme is registered before the engine starts (EntryAbility.onCreate),
@@ -570,7 +570,7 @@ struct Index {
                              res: webview.WebResourceHandler): boolean => {
         const url: string = req.getRequestUrl();
         try {
-          const a: ESObject = splash.assetGet(url);
+          const a: ESObject = octoscript.assetGet(url);
           const mime: string = a.mime as string;
           const status: number = a.status as number;
           // A napi Buffer arrives here as an ArrayBuffer, NOT as a Uint8Array
@@ -592,23 +592,23 @@ struct Index {
           res.didReceiveResponse(resp);
           res.didReceiveResponseBody(body);
           res.didFinish();
-          console.info('SPLASHASSET ' + status + ' ' + url + ' (' + body.byteLength + 'B ' + mime + ')');
+          console.info('OCTOSCRIPTASSET ' + status + ' ' + url + ' (' + body.byteLength + 'B ' + mime + ')');
         } catch (e) {
           // Failing loudly matters more here than anywhere else in this file:
           // a custom scheme has no default resolver, so a request that is
           // neither answered nor failed is a hang with no console error.
           const err = e as BusinessError;
-          console.error('SPLASHASSET error ' + url + ': code=' + err.code
+          console.error('OCTOSCRIPTASSET error ' + url + ': code=' + err.code
             + ' msg=' + err.message + ' raw=' + String(e));
           res.didFail(WebNetErrorList.ERR_FAILED);
         }
         return true;
       });
-      this.controllerFor(id).setWebSchemeHandler('splash', handler);
+      this.controllerFor(id).setWebSchemeHandler('octoscript', handler);
       this.handlers.set(id, handler);
-      console.info('SPLASHSCHEME handler installed on slot ' + id);
+      console.info('OCTOSCRIPTSCHEME handler installed on slot ' + id);
     } catch (e) {
-      console.error('SPLASHSCHEME handler install failed on slot ' + id + ': ' + JSON.stringify(e));
+      console.error('OCTOSCRIPTSCHEME handler install failed on slot ' + id + ': ' + JSON.stringify(e));
     }
   }
 
@@ -628,7 +628,7 @@ struct Index {
 
   /** Pull the declared slots from Rust; re-render only if they changed. */
   private syncWebSlots(): void {
-    const next: Array<string> = splash.webSlots() as Array<string>;
+    const next: Array<string> = octoscript.webSlots() as Array<string>;
     if (next.length === this.webSlots.length) {
       let same = true;
       for (let i = 0; i < next.length; i++) {
@@ -692,7 +692,7 @@ struct Index {
     let key = url;
     let html = '';
     if (kind === 'html') {
-      html = splash.webSlotHtml(Number(id)) as string;
+      html = octoscript.webSlotHtml(Number(id)) as string;
       key = 'html:' + html.length + ':' + html.charCodeAt(0);
     }
     if (this.loaded.get(id) === key) {
@@ -717,7 +717,7 @@ struct Index {
   }
 
   aboutToAppear(): void {
-    splash.mount(this.content);
+    octoscript.mount(this.content);
     // Animation frames. The DSL evaluates a tree once per mount, so a screen can
     // only move if it is re-mounted against a changing clock; `animTick` does
     // exactly that and returns false (doing nothing) on every static screen, so
@@ -727,12 +727,12 @@ struct Index {
     // NodeContent straight back -- which is why detaching once did nothing and
     // the Rust arm kept answering the taps.
     if (WONDEROUS_ARM !== 'arkts' || START_APP !== 'wonders') {
-      setInterval(() => { splash.animTick(); }, 33);
+      setInterval(() => { octoscript.animTick(); }, 33);
     }
     if (START_APP !== '') {
       // Prove the VM works on this build. The ported apps build in Rust and
       // never evaluate a script, so a broken VM would stay hidden until a
-      // .splash card rendered blank.
+      // .octoscript card rendered blank.
       // Wonderous sets its titles in Yeseva One and its body in Raleway. A
       // font has to be registered with the UI context before any node can name
       // it, and there is no NDK call for that -- NODE_FONT_FAMILY can only
@@ -753,20 +753,20 @@ struct Index {
           console.error('font ' + name + ' did not register: ' + JSON.stringify(e));
         }
       }
-      splash.dslSelfTest();
+      octoscript.dslSelfTest();
       // The Rust arm must not mount at all when the ArkTS one is selected.
       // Both call set_root on the same NodeContent, and the log showed a
       // detach followed straight back by a set_root -- appRender here, and
       // app::rebuild from the animation tick, which is gated above.
       if (WONDEROUS_ARM !== 'arkts' || START_APP !== 'wonders') {
-        splash.appRender(START_APP);
+        octoscript.appRender(START_APP);
       }
       // Off by default; set CATALOG_WALK_MS to re-run the screenshot sweep.
       if (START_APP === 'catalog' && CATALOG_WALK_MS > 0) {
         let k: number = 0;
         setInterval(() => {
           if (k < CATALOG_WALK.length) {
-            splash.catalogScreen(CATALOG_WALK[k]);
+            octoscript.catalogScreen(CATALOG_WALK[k]);
             k++;
           }
         }, CATALOG_WALK_MS);
@@ -774,7 +774,7 @@ struct Index {
       this.syncWebSlots();
       // Hand Rust a direct line in. Everything below this point that Rust
       // wants to say arrives immediately instead of on the next 250 ms tick.
-      splash.setPush((line: string) => { this.deliver(line); });
+      octoscript.setPush((line: string) => { this.deliver(line); });
       window.getLastWindow(getContext(this)).then((w: window.Window) => {
         this.mainWindow = w;
       }).catch((e: Error) => {
@@ -789,8 +789,8 @@ struct Index {
         // appRerender, NOT appRender: the latter resets navigation, so the
         // arrival of the very data a tap asked for would throw the user back
         // to the first tab -- making the tap look like it had done nothing.
-        if ((splash.appTakeDirty() as number) === 1) {
-          splash.appRerender();
+        if ((octoscript.appTakeDirty() as number) === 1) {
+          octoscript.appRerender();
         }
         if (NAV_PROBE_URL !== '' && this.navProbeState < 3) {
           const t: number = Date.now() - this.startedAt;
@@ -807,16 +807,16 @@ struct Index {
             try {
               // Gate 1: did ArkTS put the proxy into the new document?
               this.controllerFor('1').runJavaScript(
-                "(function(){return location.origin+' proxy='+(typeof window.splash_native)})()",
+                "(function(){return location.origin+' proxy='+(typeof window.octoscript_native)})()",
                 (err, r) => { console.info('NAVPROBE gate1 ' + (err ? 'err ' + String(err) : String(r))); });
               // Gate 2: if it is there, does Rust answer a call from it?
               this.controllerFor('1').runJavaScript(
-                "(function(){if(!window.splash_native)return 'no-proxy';"
+                "(function(){if(!window.octoscript_native)return 'no-proxy';"
                 // `log` writes page-controlled text into hilog, so a line
                 // appearing there is proof Rust *served* the call rather than
                 // merely proof that invoke() did not throw. Absence of a
                 // refusal log would not have shown that.
-                + "try{window.splash_native.invoke('navprobe','log',"
+                + "try{window.octoscript_native.invoke('navprobe','log',"
                 + "JSON.stringify('SPOKE FROM '+location.origin));return 'invoked'}"
                 + "catch(e){return 'threw '+e}})()",
                 (err, r) => { console.info('NAVPROBE gate2 ' + (err ? 'err ' + String(err) : String(r))); });
@@ -830,10 +830,10 @@ struct Index {
           const now: number = Date.now();
           if (now - this.lastForcedRerender >= RERENDER_EVERY_MS) {
             this.lastForcedRerender = now;
-            splash.appRerender();
+            octoscript.appRerender();
             this.forcedRerenders++;
             console.info('RERENDERPROBE n=' + this.forcedRerenders
-              + ' slots=' + (splash.webSlots() as Array<string>).join(','));
+              + ' slots=' + (octoscript.webSlots() as Array<string>).join(','));
           }
         }
         this.syncWebSlots();
@@ -849,12 +849,12 @@ struct Index {
     this.wc.remount = () => { this.mountArkTs(); };
     this.wc.onToggle = () => { this.toggle(); };
     // Rust drives the app first.
-    splash.wechatRender();
+    octoscript.wechatRender();
     // A tap on the header toggle inside the native tree cannot call back into
     // ArkTS directly, so Rust raises a flag and this polls it. Cheap, and it
     // sidesteps the native -> JS path that does not currently work here.
     setInterval(() => {
-      if ((splash.wechatTakeToggle() as number) === 1) {
+      if ((octoscript.wechatTakeToggle() as number) === 1) {
         this.toggle();
       }
     }, 300);
@@ -872,7 +872,7 @@ struct Index {
       this.benchDone = true;
       setTimeout(() => {
         this.wonderousArkBench();
-        splash.wondersBench();
+        octoscript.wondersBench();
       }, 2500);
     }
     if (START_APP !== '') {
@@ -897,7 +897,7 @@ struct Index {
       this.wo.onTap = (t: number) => { this.arkTap(t); };
       TOURS = new Array<Array<string>>();
       for (let a = 0; a < APPS.length; a++) {
-        TOURS.push(splash.appTour(APPS[a]) as Array<string>);
+        TOURS.push(octoscript.appTour(APPS[a]) as Array<string>);
       }
       // Auto-cycle. Only WeChat's header carries a toggle button; adding one to
       // the other three would change their node counts, and those counts are
@@ -943,13 +943,13 @@ struct Index {
     }
     this.waContent.addFrameNode(node);
     this.waRoot = node;
-    console.info('SplashOH: wonderous/arkts: mounted screen ' + wa.screen
+    console.info('OctoscriptOH: wonderous/arkts: mounted screen ' + wa.screen
       + ' wonder ' + wa.wonder + ', ' + wa.nodes + ' nodes');
   }
 
   private wonderousArkBench(): void {
     const shape: string = dataIsWellFormed();
-    console.info('SplashOH: wonderous/arkts: data ' + shape);
+    console.info('OctoscriptOH: wonderous/arkts: data ' + shape);
     if (shape !== 'ok') {
       return;
     }
@@ -988,7 +988,7 @@ struct Index {
       runs.push(systemDateTime.getTime(true) / 1000000 - rt0);
     }
     runs.sort((x: number, y: number) => x - y);
-    console.info('SplashOH: wonderous/arkts: MEDIAN ' + runs[2].toFixed(2) + ' ms over 5 runs ('
+    console.info('OctoscriptOH: wonderous/arkts: MEDIAN ' + runs[2].toFixed(2) + ' ms over 5 runs ('
       + runs[0].toFixed(2) + '-' + runs[4].toFixed(2) + ')');
     let totalMs: number = 0;
     let totalNodes: number = 0;
@@ -999,7 +999,7 @@ struct Index {
       const ms: number = t1 - t0;
       totalMs += ms;
       totalNodes += wa.nodes;
-      console.info('SplashOH: wonderous/arkts: ' + names[i] + ' ' + ms.toFixed(2) + ' ms, '
+      console.info('OctoscriptOH: wonderous/arkts: ' + names[i] + ' ' + ms.toFixed(2) + ' ms, '
         + wa.nodes + ' nodes');
       if (root !== null) {
         root.dispose();
@@ -1022,7 +1022,7 @@ struct Index {
       wa.onTap = () => { this.wonderousArkMount(); };
       this.wonderousArkMount();
     }
-    console.info('SplashOH: wonderous/arkts: TOTAL ' + totalMs.toFixed(2) + ' ms, '
+    console.info('OctoscriptOH: wonderous/arkts: TOTAL ' + totalMs.toFixed(2) + ' ms, '
       + totalNodes + ' nodes');
   }
 
@@ -1036,33 +1036,33 @@ struct Index {
       this.wo = new Wonderous(ctx);
       TOURS = new Array<Array<string>>();
       for (let a = 0; a < APPS.length; a++) {
-        TOURS.push(splash.appTour(APPS[a]) as Array<string>);
+        TOURS.push(octoscript.appTour(APPS[a]) as Array<string>);
       }
       if (MEM_RUST) {
-        splash.appRender(APPS[MEM_APP]);
+        octoscript.appRender(APPS[MEM_APP]);
       } else {
         this.mountArkTs();
       }
-      splash.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' mounted, settling');
+      octoscript.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' mounted, settling');
     } else if (i <= 3) {
-      splash.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' steady rss=' + splash.rssKb()
-        + 'kB peak=' + splash.peakRssKb() + 'kB');
+      octoscript.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' steady rss=' + octoscript.rssKb()
+        + 'kB peak=' + octoscript.peakRssKb() + 'kB');
     } else if (i === 4) {
-      splash.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' stacking ' + MEM_COPIES + ' copies');
+      octoscript.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' stacking ' + MEM_COPIES + ' copies');
     } else if (i <= 4 + MEM_COPIES) {
       // One whole app (all six screens) per tick.
       if (MEM_RUST) {
-        splash.appKeepAll(APPS[MEM_APP]);
+        octoscript.appKeepAll(APPS[MEM_APP]);
       } else {
         this.keepAllArkTs();
       }
       if ((i - 4) % 4 === 0) {
-        splash.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' held=' + (i - 4)
-          + ' rss=' + splash.rssKb() + 'kB');
+        octoscript.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' held=' + (i - 4)
+          + ' rss=' + octoscript.rssKb() + 'kB');
       }
     } else if (i === 5 + MEM_COPIES) {
-      splash.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' held=' + MEM_COPIES
-        + ' rss=' + splash.rssKb() + 'kB peak=' + splash.peakRssKb() + 'kB');
+      octoscript.wechatLog('RAM ' + APPS[MEM_APP] + ' ' + which + ' held=' + MEM_COPIES
+        + ' rss=' + octoscript.rssKb() + 'kB peak=' + octoscript.peakRssKb() + 'kB');
     } else {
       return;
     }
@@ -1120,12 +1120,12 @@ struct Index {
       if (this.useRust) {
         this.detachArkTs();
         this.shown = (this.shown + 1) % APPS.length;
-        splash.appRender(APPS[this.shown]);
+        octoscript.appRender(APPS[this.shown]);
       } else {
         this.mountArkTs();
       }
     } catch (e) {
-      console.info('SPLASHERR toggle ' + e);
+      console.info('OCTOSCRIPTERR toggle ' + e);
     }
   }
 
@@ -1146,7 +1146,7 @@ struct Index {
   }
 
   private mountArkTs(): number {
-    splash.wechatDetach();
+    octoscript.wechatDetach();
     this.detachArkTs();
     if (this.tb === null) {
       const ctx = this.getUIContext();
@@ -1196,7 +1196,7 @@ struct Index {
         this.wo!.wonder = (t - 4000) % 4;
       }
     }
-    splash.wechatDetach();
+    octoscript.wechatDetach();
     this.detachArkTs();
     this.buildArkTs(this.shown, this.shown === 1 ? this.tb!.tab
       : this.shown === 2 ? this.tk!.tab : this.wo!.tab, 'root');
@@ -1206,7 +1206,7 @@ struct Index {
       this.mounted = node;
     }
     } catch (e) {
-      console.info('SPLASHERR arkTap ' + e);
+      console.info('OCTOSCRIPTERR arkTap ' + e);
     }
   }
 
@@ -1254,7 +1254,7 @@ struct Index {
       this.wo = new Wonderous(ctx);
       TOURS = new Array<Array<string>>();
       for (let a = 0; a < A; a++) {
-        TOURS.push(splash.appTour(APPS[a]) as Array<string>);
+        TOURS.push(octoscript.appTour(APPS[a]) as Array<string>);
       }
       for (let k = 0; k < A * S; k++) {
         this.rustN.push(0);
@@ -1264,7 +1264,7 @@ struct Index {
         this.nodesR.push(0);
         this.nodesA.push(0);
       }
-      splash.wechatLog('warming up (' + WC_WARMUP + ' tours over ' + A + ' apps, discarded)');
+      octoscript.wechatLog('warming up (' + WC_WARMUP + ' tours over ' + A + ' apps, discarded)');
     } else if (i <= warm) {
       const n = i - 1;
       if (n === Math.floor(warm / 2)) {
@@ -1298,7 +1298,7 @@ struct Index {
       this.detachArkTs();
       this.shown = 0;
       this.useRust = true;
-      splash.appRender('wechat');
+      octoscript.appRender('wechat');
       return;
     }
     setTimeout(() => { this.wcStep(i + 1); }, 40);
@@ -1316,7 +1316,7 @@ struct Index {
     let us = 0;
     let nodes = 0;
     if (isRust) {
-      const r: Array<number> = splash.appTime(id, tab, route) as Array<number>;
+      const r: Array<number> = octoscript.appTime(id, tab, route) as Array<number>;
       nodes = r[0];
       us = r[1];
     } else {
@@ -1425,7 +1425,7 @@ struct Index {
           mismatch++;
         }
       }
-      splash.wechatLog(APPS[a] + ' nodes=' + nodes
+      octoscript.wechatLog(APPS[a] + ' nodes=' + nodes
         + (mismatch > 0 ? ' MISMATCH=' + mismatch : '')
         + ' | idle rust=' + trN.toFixed(1) + ' arkts=' + taN.toFixed(1)
         + ' (' + (taN / Math.max(trN, 0.001)).toFixed(2) + 'x)'
@@ -1461,23 +1461,23 @@ struct Index {
           // origin -- see loadSlot for why it cannot be data: or origin-less.
           // 'html' starts on a real https origin and is filled by loadData;
           // 'url' and 'app' both navigate straight to their src -- for 'app'
-          // that is a splash:// URL the scheme handler answers.
+          // that is a octoscript:// URL the scheme handler answers.
           src: slot.split('|')[1] === 'html' ? WEB_BASE : slot.split('|')[6],
           controller: this.controllerFor(slot.split('|')[0])
         })
           .javaScriptAccess(true)
           .domStorageAccess(true)
-          // The JS -> Rust/Splash bridge, attached ONLY to slots showing markup
+          // The JS -> Rust/Octoscript bridge, attached ONLY to slots showing markup
           // this app generated ('html'). A slot showing a remote page ('url')
-          // never sees splash_native at all -- apps/browser.rs loads Wikipedia
+          // never sees octoscript_native at all -- apps/browser.rs loads Wikipedia
           // and Hacker News into slots, and they have no business holding
-          // splash.eval or http.get.
+          // octoscript.eval or http.get.
           //
           // Rust re-checks on every call regardless. This check sits next to
           // the untrusted content, which makes it the wrong place to depend on.
           .javaScriptProxy(slot.split('|')[1] !== 'url' ? {
             object: this.bridgeFor(slot.split('|')[0]),
-            name: 'splash_native',
+            name: 'octoscript_native',
             methodList: ['invoke'],
             controller: this.controllerFor(slot.split('|')[0]),
           } : undefined)
@@ -1488,7 +1488,7 @@ struct Index {
           // Refuse to navigate a trusted slot off its own origin.
           //
           // Trust is recorded per slot, but javaScriptProxy attaches to the
-          // component -- so a splash:// page that navigated itself to a remote
+          // component -- so a octoscript:// page that navigated itself to a remote
           // site kept the bridge, and Rust, checking only the slot, agreed. A
           // document served by example.com called the `log` tool and Rust wrote
           // its text to hilog. This is where that stops.
@@ -1496,7 +1496,7 @@ struct Index {
           // Returning true cancels the load.
           .onLoadIntercept((event) => {
             const id: string = slot.split('|')[0];
-            const want: string = splash.slotExpectedOrigin(Number(id)) as string;
+            const want: string = octoscript.slotExpectedOrigin(Number(id)) as string;
             if (want === '') {
               return false;  // a url slot is untrusted whatever it loads
             }
@@ -1514,7 +1514,7 @@ struct Index {
             const id: string = slot.split('|')[0];
             const u: string = event.url as string;
             const i: number = u.indexOf('/', u.indexOf('://') + 3);
-            splash.slotOrigin(Number(id), i < 0 ? u : u.substring(0, i));
+            octoscript.slotOrigin(Number(id), i < 0 ? u : u.substring(0, i));
           })
           .mediaPlayGestureAccess(false)
           // These are vp, which is what a declarer has to know. A width of 0
