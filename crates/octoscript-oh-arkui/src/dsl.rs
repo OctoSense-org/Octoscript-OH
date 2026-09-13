@@ -222,11 +222,10 @@ pub fn build_youtube() -> Option<Node> {
 
 /// Evaluate Octoscript source and build the native tree it describes.
 pub fn build(src: &str) -> Option<Node> {
-    let mut std_slot = 0;
-    let mut host = 0;
+    // No host state and no std slot: the walker only needs the VM itself.
+    let mut host = ScriptVmHost::new((), ());
     let vm = &mut ScriptVm {
         host: &mut host,
-        std: &mut std_slot,
         bx: Box::new(ScriptVmBase::new()),
     };
 
