@@ -303,7 +303,7 @@ dependencies = [
 [[package]]
 name = "octoscript-core"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#c0ec7fdd4eb05285697c7af77a0eadfcf2201a71"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#5379eed75caeeda7400c2d71c87147abc61920f1"
 dependencies = [
  "makepad-script",
  "octoscript-ui-l0",
@@ -369,7 +369,7 @@ dependencies = [
 [[package]]
 name = "octoscript-ui-l0"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#c0ec7fdd4eb05285697c7af77a0eadfcf2201a71"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#5379eed75caeeda7400c2d71c87147abc61920f1"
 dependencies = [
  "blake3",
  "serde_json",
