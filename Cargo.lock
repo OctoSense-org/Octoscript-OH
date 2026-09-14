@@ -146,7 +146,7 @@ dependencies = [
 [[package]]
 name = "makepad-error-log"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-micro-serde",
 ]
@@ -154,7 +154,7 @@ dependencies = [
 [[package]]
 name = "makepad-html"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-live-id",
 ]
@@ -162,7 +162,7 @@ dependencies = [
 [[package]]
 name = "makepad-live-id"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-live-id-macros",
 ]
@@ -170,7 +170,7 @@ dependencies = [
 [[package]]
 name = "makepad-live-id-macros"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -178,7 +178,7 @@ dependencies = [
 [[package]]
 name = "makepad-math"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-micro-serde",
 ]
@@ -186,12 +186,12 @@ dependencies = [
 [[package]]
 name = "makepad-micro-proc-macro"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 
 [[package]]
 name = "makepad-micro-serde"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-live-id",
  "makepad-micro-serde-derive",
@@ -200,7 +200,7 @@ dependencies = [
 [[package]]
 name = "makepad-micro-serde-derive"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -208,12 +208,12 @@ dependencies = [
 [[package]]
 name = "makepad-regex"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 
 [[package]]
 name = "makepad-script"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-error-log",
  "makepad-html",
@@ -228,7 +228,7 @@ dependencies = [
 [[package]]
 name = "makepad-script-derive"
 version = "1.0.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 dependencies = [
  "makepad-micro-proc-macro",
 ]
@@ -236,7 +236,7 @@ dependencies = [
 [[package]]
 name = "makepad-stitch"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 
 [[package]]
 name = "material-catalog"
@@ -303,7 +303,7 @@ dependencies = [
 [[package]]
 name = "octoscript-core"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#73900cba3995d056c8cb1d77e8002a639163bfc5"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#5295527e38012441199820b7f333262174715db6"
 dependencies = [
  "makepad-script",
  "octoscript-ui-l0",
@@ -369,7 +369,7 @@ dependencies = [
 [[package]]
 name = "octoscript-ui-l0"
 version = "0.1.0"
-source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#73900cba3995d056c8cb1d77e8002a639163bfc5"
+source = "git+https://github.com/OctoSense-org/Octoscript.git?branch=main#5295527e38012441199820b7f333262174715db6"
 dependencies = [
  "blake3",
  "serde_json",
@@ -489,7 +489,7 @@ checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
 [[package]]
 name = "smallvec"
 version = "1.15.1"
-source = "git+https://github.com/OctoSense-org/makepad.git?rev=712b9f16d1992131bb99c070673faa1929fe75f3#712b9f16d1992131bb99c070673faa1929fe75f3"
+source = "git+https://github.com/OctoSense-org/makepad.git?rev=703c00acd738c1762b5db581d3dcc359bfb97d4a#703c00acd738c1762b5db581d3dcc359bfb97d4a"
 
 [[package]]
 name = "syn"
