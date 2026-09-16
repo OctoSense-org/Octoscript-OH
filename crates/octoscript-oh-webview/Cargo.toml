@@ -28,7 +28,7 @@ octoscript-oh-core = { path = "../octoscript-oh-core" }
 # not in octoscript-oh-core -- see the module docs there.
 octoscript-oh-plugin-demo = { path = "../octoscript-oh-plugin-demo" }
 # The Octoscript VM, via ymote/Octoscript rather than straight from makepad.
-octoscript-core = { git = "https://github.com/OctoSense-org/Octoscript.git", branch = "main" }
+octoscript-core = { git = "https://github.com/OctoSense-org/Octoscript.git", rev = "5430518683462eebb65b56b9b5d0e620006f04f4" }
 napi-derive-ohos = "0.0.9"
 napi-ohos = "0.1.3"
 serde = { version = "1", features = ["derive"] }
