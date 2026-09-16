@@ -49,6 +49,7 @@ extern "C" {
 /// so a single wrong value silently addresses a different attribute.
 mod raw {
     extern "C" {
+        pub static octoscript_a_id: i32;
         pub static octoscript_a_width: i32;
         pub static octoscript_a_height: i32;
         pub static octoscript_a_bg: i32;
@@ -167,6 +168,7 @@ pub mod ty {
 pub mod attr {
     use super::raw;
     arkui_consts! {
+        id => octoscript_a_id,
         width => octoscript_a_width, height => octoscript_a_height, bg => octoscript_a_bg,
         padding => octoscript_a_padding, margin => octoscript_a_margin,
         border_width => octoscript_a_border_width, border_radius => octoscript_a_border_radius,

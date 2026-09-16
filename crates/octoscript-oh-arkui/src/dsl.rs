@@ -530,6 +530,13 @@ fn walk(vm: &mut ScriptVm, value: ScriptValue, depth: usize, parent: &str) -> Op
     };
 
     let mut node = Node::new(node_ty)?;
+    // The card node's `id` becomes the ArkUI component id, so the OS's own
+    // inspector (`uitest dumpLayout`, read by lab/core/ohos_instrument.py)
+    // reports the same ids the source and the lab's gates join on — the
+    // role makepad's WidgetQuery ids play on the makepad backend.
+    if let Some(s) = string_prop(vm, value, id!(id)) {
+        node = node.string_attr(attr::id(), &s);
+    }
     if tag == "scroll" {
         note_scroll_node(node.raw());
     }
