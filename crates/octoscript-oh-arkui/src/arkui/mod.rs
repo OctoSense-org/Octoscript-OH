@@ -34,6 +34,7 @@ extern "C" {
     fn octoscript_layout_size(n: NodeHandle, w: *mut i32, h: *mut i32) -> c_int;
     fn octoscript_content_add(content: NodeContentHandle, root: NodeHandle) -> c_int;
     fn octoscript_register_event(n: NodeHandle, event_type: c_int, id: i32) -> c_int;
+    fn octoscript_set_touch_handler(h: Option<TouchHandler>);
     fn octoscript_animate(
         anchor: NodeHandle,
         duration_ms: c_int,
@@ -68,6 +69,7 @@ mod raw {
         pub static octoscript_a_hit_test: i32;
         pub static octoscript_a_text_shadow: i32;
         pub static octoscript_a_translate: i32;
+        pub static octoscript_a_rotate: i32;
         pub static octoscript_a_scale: i32;
         pub static octoscript_a_zindex: i32;
         pub static octoscript_a_clip: i32;
@@ -187,6 +189,7 @@ pub mod attr {
         image_fit => octoscript_a_image_fit,
         textpicker_range => octoscript_a_textpicker_range,
         position => octoscript_a_position, hit_test => octoscript_a_hit_test, text_shadow => octoscript_a_text_shadow, translate => octoscript_a_translate,
+        rotate => octoscript_a_rotate,
         scale => octoscript_a_scale, zindex => octoscript_a_zindex, clip => octoscript_a_clip,
         stack_align => octoscript_a_stack_align,
         linear_gradient => octoscript_a_linear_gradient,
@@ -218,6 +221,23 @@ pub mod event {
     arkui_consts! { click => octoscript_e_click, touch => octoscript_e_touch, appear => octoscript_e_appear,
     input_change => octoscript_e_input_change, slider_change => octoscript_e_slider_change,
     did_scroll => octoscript_e_did_scroll }
+}
+
+/// Touch actions as `ArkUI_UIInputEvent` reports them (`UI_TOUCH_EVENT_ACTION_*`).
+pub const TOUCH_DOWN: i32 = 1;
+pub const TOUCH_MOVE: i32 = 2;
+pub const TOUCH_UP: i32 = 3;
+pub const TOUCH_CANCEL: i32 = 0;
+
+/// `(target, action, x, y, fingers, x2, y2)`: one raw touch on a node that
+/// registered `event::touch()`. `x`/`y` are px relative to that node; the
+/// second finger is `(0, 0)` unless `fingers >= 2`.
+pub type TouchHandler = extern "C" fn(i32, i32, f32, f32, i32, f32, f32);
+
+/// Receive every DOWN/MOVE/UP on touch-registered nodes instead of the
+/// swipe verdicts the default path reports through the event handler.
+pub fn set_touch_handler(h: Option<TouchHandler>) {
+    unsafe { octoscript_set_touch_handler(h) };
 }
 
 /// Initialise the node API. Safe to call repeatedly.
