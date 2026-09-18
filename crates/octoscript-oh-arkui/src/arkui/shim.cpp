@@ -351,15 +351,47 @@ static void octoscript_handle_touch(ArkUI_NodeEvent *e, int32_t target) {
     }
 }
 
+// Raw touches.
+//
+// Continuous gestures (a strip dragged under the finger, a dial that turns
+// with it, a pinch) need every DOWN/MOVE/UP with coordinates, not a swipe
+// verdict. An app that installs this handler gets the stream for the nodes it
+// registered NODE_TOUCH_EVENT on: the action (UI_TOUCH_EVENT_ACTION_*), the
+// first finger in px relative to that node, how many fingers are down and the
+// second finger (0,0 when there is none). The swipe path above stays for the
+// apps that do not.
+typedef void (*octoscript_touch_fn)(int32_t target, int32_t action, float x, float y,
+                                    int32_t fingers, float x2, float y2);
+static octoscript_touch_fn g_rust_touch = nullptr;
+
+static void octoscript_forward_touch(ArkUI_NodeEvent *e, int32_t target) {
+    ArkUI_UIInputEvent *in = OH_ArkUI_NodeEvent_GetInputEvent(e);
+    if (!in) return;
+    const int32_t action = OH_ArkUI_UIInputEvent_GetAction(in);
+    const uint32_t n = OH_ArkUI_PointerEvent_GetPointerCount(in);
+    float x2 = 0.f, y2 = 0.f;
+    if (n >= 2) {
+        x2 = OH_ArkUI_PointerEvent_GetXByIndex(in, 1);
+        y2 = OH_ArkUI_PointerEvent_GetYByIndex(in, 1);
+    }
+    g_rust_touch(target, action, OH_ArkUI_PointerEvent_GetX(in), OH_ArkUI_PointerEvent_GetY(in),
+                 (int32_t)n, x2, y2);
+}
+
 static void octoscript_event_trampoline(ArkUI_NodeEvent *e) {
     if (!e || !g_rust_handler) return;
     const int32_t target = OH_ArkUI_NodeEvent_GetTargetId(e);
     const ArkUI_NodeEventType ty = OH_ArkUI_NodeEvent_GetEventType(e);
     if (ty == NODE_TOUCH_EVENT) {
-        octoscript_handle_touch(e, target);
+        if (g_rust_touch) octoscript_forward_touch(e, target);
+        else octoscript_handle_touch(e, target);
         return;
     }
     g_rust_handler(target, (int32_t)ty);
+}
+
+void octoscript_set_touch_handler(octoscript_touch_fn h) {
+    g_rust_touch = h;
 }
 
 void octoscript_set_event_handler(void (*h)(int32_t, int32_t)) {
@@ -501,6 +533,7 @@ OCTOSCRIPT_CONST(octoscript_a_hit_test,     NODE_HIT_TEST_BEHAVIOR)
 OCTOSCRIPT_CONST(octoscript_e_did_scroll,   NODE_SCROLL_EVENT_ON_DID_SCROLL)
 OCTOSCRIPT_CONST(octoscript_a_text_shadow,  NODE_TEXT_TEXT_SHADOW)
 OCTOSCRIPT_CONST(octoscript_a_translate,    NODE_TRANSLATE)
+OCTOSCRIPT_CONST(octoscript_a_rotate,       NODE_ROTATE)
 OCTOSCRIPT_CONST(octoscript_a_scale,        NODE_SCALE)
 OCTOSCRIPT_CONST(octoscript_a_zindex,       NODE_Z_INDEX)
 OCTOSCRIPT_CONST(octoscript_a_clip,         NODE_CLIP)
