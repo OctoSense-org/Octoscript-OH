@@ -3,6 +3,7 @@ name = "octoscript-oh-plugin-demo"
 version = "0.1.0"
 edition = "2021"
 description = "A Octoscript-OH plugin, existing to prove a tool can live outside the bridge"
+license = "Apache-2.0"
 
 [dependencies]
 octoscript-oh-core = { path = "../octoscript-oh-core" }
