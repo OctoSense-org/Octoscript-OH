@@ -3,6 +3,7 @@ name = "octoscript-oh-webview"
 version = "0.1.0"
 edition = "2021"
 description = "A Tauri-style JS to Rust bridge for OpenHarmony web surfaces, over native ArkUI"
+license = "Apache-2.0"
 
 # Named `octoscript_oh` deliberately: the artifact stays liboctoscript_oh.so, which is
 # what ArkTS imports. The package name records the split; the .so name is an

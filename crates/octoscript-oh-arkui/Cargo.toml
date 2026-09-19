@@ -3,6 +3,7 @@ name = "octoscript-oh-arkui"
 version = "0.1.0"
 edition = "2021"
 description = "Octoscript DSL rendered to OpenHarmony native ArkUI widgets, with no ArkTS in the loop"
+license = "Apache-2.0"
 
 # An rlib, not a cdylib. This crate has no napi surface of its own: the ArkTS
 # side loads exactly one .so, and that is the webview crate, which depends on
