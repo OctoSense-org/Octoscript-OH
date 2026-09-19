@@ -1,0 +1,31 @@
+Octoscript-OH
+Copyright 2026 The OctoSense Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party code and assets
+---------------------------
+
+The following portions are derived from third-party projects. The original
+copyright and license terms of those projects continue to apply to the
+material taken from them:
+
+* examples/wonderous: ported from Wonderous
+  (https://github.com/gskinnerTeam/flutter-wonderous-app),
+  Copyright (c) 2022 gskinner.com, licensed under the MIT License.
+* examples/wonderous-makepad: ported from makepad_wonderous
+  (https://github.com/project-robius/makepad_wonderous), licensed under the
+  Apache License, Version 2.0.
+* deveco/entry/src/main/resources/rawfile/wonders and .../rawfile/wonderous:
+  images and other assets originating from the Wonderous and
+  makepad_wonderous projects above. They remain under those projects'
+  licenses, and the images remain the property of their respective owners.
+* deveco/entry/src/main/resources/rawfile/wonders/fonts: Raleway, Tenor Sans
+  and Yeseva One fonts, licensed under the SIL Open Font License, Version 1.1.
+
+The examples/wechat, examples/taobao and examples/tiktok demos imitate the
+look of third-party apps for rendering tests. Product names, logos and other
+imagery in them belong to their respective owners and are not covered by this
+project's license.
+
+Dependencies retain their respective licenses.

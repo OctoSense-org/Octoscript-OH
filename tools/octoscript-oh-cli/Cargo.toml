@@ -3,6 +3,7 @@ name = "octoscript-oh-cli"
 version = "0.1.0"
 edition = "2021"
 description = "Host-side tooling for a Octoscript-OH app"
+license = "Apache-2.0"
 
 [[bin]]
 name = "octoscript-oh"

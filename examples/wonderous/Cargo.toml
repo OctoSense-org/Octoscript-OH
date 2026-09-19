@@ -3,6 +3,7 @@ name = "wonderous"
 version = "0.1.0"
 edition = "2021"
 description = "Wonderous, ported from gskinnerTeam/flutter-wonderous-app."
+license = "Apache-2.0"
 
 [lib]
 name = "wonderous"
