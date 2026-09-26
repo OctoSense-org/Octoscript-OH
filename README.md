@@ -2,12 +2,15 @@
 
 English | [简体中文](README.zh-CN.md)
 
+> **Building an OctoSense app?** You do not need this repository: it renders OctoScript to OpenHarmony ArkUI for native OpenHarmony apps, a separate path from OctoSense script apps and the App Hub. Start from the [OctoSense organization profile](https://github.com/OctoSense-org)'s reading order: [OctoScript-App-Design-Flow `AGENTS.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/AGENTS.md) → [`flows/README.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/flows/README.md) → [`docs/QUICKSTART.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/docs/QUICKSTART.md).
+
 ## Shared Octoscript-Makepad runtime
 
 `native-runtime.lock.json` selects one
 [Octoscript-Makepad](https://github.com/OctoSense-org/Octoscript-Makepad)
 release. Its `runtime.json` owns the exact Makepad and Octoscript revisions,
-shared with AppCards, Mail and the other OctoSense applications.
+shared with the OctoSense shells, the App Hub's `card-host`, Mail and the other
+OctoSense applications.
 
 Before building, run `python3 tools/setup-native.py` (Python 3.9+). The framework
 repositories are siblings of this app: `../octoscript-makepad`, `../makepad`
