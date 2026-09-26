@@ -1,8 +1,22 @@
 # Octoscript-OH
 
-*[English version](README.md)*
+[English](README.md) | 简体中文
 
-前端用网页，其余全部交给 Rust，做一个鸿蒙原生应用。
+## 共享的 Octoscript-Makepad 运行时
+
+`native-runtime.lock.json` 选定一个
+[Octoscript-Makepad](https://github.com/OctoSense-org/Octoscript-Makepad)
+发布版本。该版本的 `runtime.json` 负责锁定确切的 Makepad 和 Octoscript 版本，
+AppCards、Mail 以及其他 OctoSense 应用共用同一份。
+
+构建之前先运行 `python3 tools/setup-native.py`（需要 Python 3.9+）。框架仓库与本应用
+并列存放：`../octoscript-makepad`、`../makepad` 和 `../octoscript`。本地改动会被保留；
+`--update` 只更新没有改动的 checkout。CI 会校验所选的发布版本，并拒绝重复的 Makepad 来源。
+用 `python3 tools/setup-native.py --check --cargo-manifest Cargo.toml`
+检查本地依赖图。现有的各平台渲染后端仍然属于各自的应用；框架负责的是共享的 VM 和 UI 源码。
+
+
+做一个鸿蒙应用：前端用网页，其余全部交给 Rust。
 
 页面里调 `octoscript.invoke('device.info')`，答案来自 Rust。页面周围是真正的原生
 ArkUI 控件——同样由 Rust 构建，不经过 ArkTS。整体形态和 Tauri 一致；控件那一层
@@ -41,8 +55,10 @@ OCTOSCRIPT_DEV_SERVER=http://127.0.0.1:5173 ./build.sh
 |---|---|
 | [做一个应用](docs/building-an-app.zh-CN.md) | 模板、开发回路、`octoscript.toml`、构建 |
 | [插件](docs/plugins.zh-CN.md) | 自己的原生工具，同步与异步 |
-| [能力](docs/capabilities.zh-CN.md) | 页面能做什么，以及如何强制 |
+| [能力](docs/capabilities.zh-CN.md) | 页面能做什么，以及如何强制执行 |
 | [发布](docs/releasing.zh-CN.md) | 签名、AGC，以及尚未完成的部分 |
+
+每个页面都有中文版：每个 `docs/*.md` 旁边都有对应的 `docs/*.zh-CN.md`。
 
 ## 页面能碰到什么
 
@@ -76,11 +92,11 @@ deveco/                        ArkTS 外壳
 
 ### octoscript-oh-arkui
 
-用 Rust 把 UI 树渲染成原生 ArkUI 控件。ArkTS 在启动时交出一个 `NodeContent`，
+用 Rust 把 UI 树渲染成 ArkUI 原生控件。ArkTS 在启动时交出一个 `NodeContent`，
 之后每个控件的创建、配置、布局和事件绑定都由原生代码完成，没有逐控件、也没有
 逐帧的 ArkTS 调用。
 
-其中包含 ArkUI NDK 绑定、Octoscript DSL 解释执行、控件构造器、四个移植过来的参考
+其中包含 ArkUI NDK 绑定、Octoscript DSL 遍历器、控件构造器、四个移植过来的参考
 应用（微信、淘宝、抖音、Wonderous），以及它们存在的目的——Rust 与 ArkTS 的对比
 基准测试。
 
@@ -113,14 +129,11 @@ deveco/                        ArkTS 外壳
 
 - **发布签名没有接通。** `sign-hap.sh` 里已有无 IDE 的 AGC 签名路径，
   `octoscript.toml` 里也已有 `[signing]` 段，但两者还没连起来。见
-  [docs/releasing.zh-CN.md](docs/releasing.zh-CN.md)。没有真正跑过的签名不算能用的签名，
-  这一步需要真实的发布证书材料才能验证。
+  [docs/releasing.zh-CN.md](docs/releasing.zh-CN.md)。
 - **外壳是一份源码，不是一个依赖。** 项目是"依托"一份 Octoscript-OH 源码来构建的，
   而把你自己的插件链接进去目前还需要在那份源码里手工改两处。
 - **没有多窗口、自动更新、托盘。** 鸿蒙上的对应能力还没去查，谈不上有计划。
 - **`cargo test` 在这里跑不起来。** 这些 crate 只为
   `aarch64-unknown-linux-ohos` 构建，宿主机执行不了，推到设备上又被 SELinux
-  拒绝。所以真正重要的检查改成在启动时自检并打日志——在 hilog 里搜 `selftest`。
-
-  提醒一句：hilog 大约一分钟就会被 Chromium 的日志灌满并把早期的行挤掉，启动后
-  半分钟再去看往往什么都搜不到。要看就在启动后立刻看。
+  拒绝。所以真正重要的检查改成在启动时运行并把结果写进日志——在 hilog 里搜
+  `selftest`，而且要立刻去看：大约一分钟内 hilog 就会被 Chromium 的输出灌满，把这些日志挤掉。

@@ -1,5 +1,7 @@
 # Octoscript-OH
 
+English | [简体中文](README.zh-CN.md)
+
 ## Shared Octoscript-Makepad runtime
 
 `native-runtime.lock.json` selects one
@@ -15,8 +17,6 @@ Use `python3 tools/setup-native.py --check --cargo-manifest Cargo.toml`
 to check the local dependency graph. Existing platform rendering backends remain
 part of their applications; the framework controls the shared VM and UI sources.
 
-
-*[中文版](README.zh-CN.md)*
 
 Build a HarmonyOS app with a web frontend and Rust for everything else.
 
@@ -38,7 +38,7 @@ npm install && npm run build
 ./build.sh              # builds, installs and launches on a connected phone
 ```
 
-`./build.sh` needs a Octoscript-OH checkout to build against — clone one beside your
+`./build.sh` needs an Octoscript-OH checkout to build against — clone one beside your
 project or set `OCTOSCRIPT_OH`. See **[docs/building-an-app.md](docs/building-an-app.md)**.
 
 While developing, skip the rebuild entirely:
@@ -61,7 +61,7 @@ a rebuild.
 | [Capabilities](docs/capabilities.md) | what a page may do, and how that is enforced |
 | [Releasing](docs/releasing.md) | signing, AGC, and what is not done yet |
 
-Every page is also in Chinese — see [README.zh-CN.md](README.zh-CN.md).
+Every page is also in Chinese: each `docs/*.md` has a `docs/*.zh-CN.md` beside it.
 
 ## What a page can reach
 
@@ -137,7 +137,7 @@ HarmonyOS 6.1 device rather than inferred. What is not done:
 - **Signing for release is not wired.** `sign-hap.sh` has a headless AGC path
   and `octoscript.toml` has a `[signing]` section; nothing connects them yet. See
   [docs/releasing.md](docs/releasing.md).
-- **The shell is a checkout, not a dependency.** A project builds *against* a
+- **The shell is a checkout, not a dependency.** A project builds *against* an
   Octoscript-OH clone, and linking your own plugin is two manual edits in it.
 - **No multi-window, updater or tray.** OHOS equivalents are unexplored rather
   than planned.
