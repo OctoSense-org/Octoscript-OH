@@ -2,12 +2,14 @@
 
 [English](README.md) | 简体中文
 
+> **要开发 OctoSense 应用？** 你不需要这个仓库：它把 OctoScript 渲染为 OpenHarmony ArkUI，用于原生 OpenHarmony 应用，与 OctoSense 脚本应用和 App Hub 是两条不同的路径。请按 [OctoSense 组织主页](https://github.com/OctoSense-org)给出的顺序阅读：[OctoScript-App-Design-Flow `AGENTS.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/AGENTS.md) → [`flows/README.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/flows/README.md) → [`docs/QUICKSTART.md`](https://github.com/OctoSense-org/OctoScript-App-Design-Flow/blob/main/docs/QUICKSTART.md)。
+
 ## 共享的 Octoscript-Makepad 运行时
 
 `native-runtime.lock.json` 选定一个
 [Octoscript-Makepad](https://github.com/OctoSense-org/Octoscript-Makepad)
 发布版本。该版本的 `runtime.json` 负责锁定确切的 Makepad 和 Octoscript 版本，
-AppCards、Mail 以及其他 OctoSense 应用共用同一份。
+OctoSense 外壳、App Hub 的 `card-host`、Mail 以及其他 OctoSense 应用共用同一份。
 
 构建之前先运行 `python3 tools/setup-native.py`（需要 Python 3.9+）。框架仓库与本应用
 并列存放：`../octoscript-makepad`、`../makepad` 和 `../octoscript`。本地改动会被保留；
